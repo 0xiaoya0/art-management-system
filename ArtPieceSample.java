@@ -6,13 +6,14 @@
 public class ArtPieceSample extends javax.swing.JFrame {
     private java.util.Map _stateMap;
     private Recognized_as_unrepairableTransition _damaged_State_recognized_as_unrepairableTransition = new Recognized_as_unrepairableTransition("recognized as unrepairable", new String[] {}, new Class[] {});
-    private Exhibition_endsTransition _on_show_exhibition_endsTransition = new Exhibition_endsTransition("exhibition ends", new String[] {}, new Class[] {});
-    private Auction_day_arrivesTransition _in_waitlist_for_auction_auction_day_arrivesTransition = new Auction_day_arrivesTransition("auction day arrives", new String[] {}, new Class[] {});
-    private Authenticated_to_have_valueTransition _out_side_of_collection_authenticated_to_have_valueTransition = new Authenticated_to_have_valueTransition("authenticated to have value", new String[] {}, new Class[] {});
+    private RepairedTransition _damaged_State_repairedTransition = new RepairedTransition("repaired", new String[] {}, new Class[] {});
+    private Auction_day_arrivesTransition _on_auction_deal_madeTransition = new Auction_day_arrivesTransition("deal made", new String[] {}, new Class[] {});
     private DamagedTransition _in_the_art_collection_damagedTransition = new DamagedTransition("damaged", new String[] {}, new Class[] {});
-    private Exhibition_day_arrivesTransition _in_waitlist_for_exhibition_exhibition_day_arrivesTransition = new Exhibition_day_arrivesTransition("exhibition day arrives", new String[] {}, new Class[] {});
-    private Not_soldTransition _on_auction_not_soldTransition = new Not_soldTransition("not sold", new String[] {}, new Class[] {});
-    private SoldTransition _on_auction_soldTransition = new SoldTransition("sold", new String[] {}, new Class[] {});
+    private Exhibition_endsTransition _on_show_exhibition_endsTransition = new Exhibition_endsTransition("exhibition ends", new String[] {}, new Class[] {});
+    private Authenticated_to_have_valueTransition _out_side_of_collection_authenticated_to_have_valueTransition = new Authenticated_to_have_valueTransition("authenticated to have value", new String[] {}, new Class[] {});
+    private Exhibition_day_arrivesTransition _arrangement_exhibition_day_arrivesTransition = new Exhibition_day_arrivesTransition("exhibition day arrives", new String[] {}, new Class[] {});
+    private Not_soldTransition _settlement_not_soldTransition = new Not_soldTransition("not sold", new String[] {}, new Class[] {});
+    private SoldTransition _settlement_soldTransition = new SoldTransition("sold", new String[] {}, new Class[] {});
 
     private javax.swing.JTextField _currentState;
     private javax.swing.JButton _processButton;
@@ -25,14 +26,14 @@ public class ArtPieceSample extends javax.swing.JFrame {
 
     public ArtPieceSample() {
         _stateMap = new java.util.HashMap();
-        _stateMap.put(ArtPieceContext.ArtPieceFSM.In_storage, new Transition[] {});
-        _stateMap.put(ArtPieceContext.ArtPieceFSM.Damaged_State, new Transition[] { _damaged_State_recognized_as_unrepairableTransition });
-        _stateMap.put(ArtPieceContext.ArtPieceFSM.On_show, new Transition[] { _on_show_exhibition_endsTransition });
-        _stateMap.put(ArtPieceContext.ArtPieceFSM.In_waitlist_for_auction, new Transition[] { _in_waitlist_for_auction_auction_day_arrivesTransition });
-        _stateMap.put(ArtPieceContext.ArtPieceFSM.Out_side_of_collection, new Transition[] { _out_side_of_collection_authenticated_to_have_valueTransition });
+        _stateMap.put(ArtPieceContext.ArtPieceFSM.Damaged_State, new Transition[] { _damaged_State_recognized_as_unrepairableTransition, _damaged_State_repairedTransition });
+        _stateMap.put(ArtPieceContext.ArtPieceFSM.On_auction, new Transition[] { _on_auction_deal_madeTransition });
         _stateMap.put(ArtPieceContext.ArtPieceFSM.In_the_art_collection, new Transition[] { _in_the_art_collection_damagedTransition });
-        _stateMap.put(ArtPieceContext.ArtPieceFSM.In_waitlist_for_exhibition, new Transition[] { _in_waitlist_for_exhibition_exhibition_day_arrivesTransition });
-        _stateMap.put(ArtPieceContext.ArtPieceFSM.On_auction, new Transition[] { _on_auction_not_soldTransition, _on_auction_soldTransition });
+        _stateMap.put(ArtPieceContext.ArtPieceFSM.On_show, new Transition[] { _on_show_exhibition_endsTransition });
+        _stateMap.put(ArtPieceContext.ArtPieceFSM.In_storage, new Transition[] {});
+        _stateMap.put(ArtPieceContext.ArtPieceFSM.Out_side_of_collection, new Transition[] { _out_side_of_collection_authenticated_to_have_valueTransition });
+        _stateMap.put(ArtPieceContext.ArtPieceFSM.Arrangement, new Transition[] { _arrangement_exhibition_day_arrivesTransition });
+        _stateMap.put(ArtPieceContext.ArtPieceFSM.Settlement, new Transition[] { _settlement_not_soldTransition, _settlement_soldTransition });
 
         initUI();
         reset();
@@ -487,6 +488,24 @@ public class ArtPieceSample extends javax.swing.JFrame {
             }
             addLog("[Call] ArtPiece.sold()");
             aArtPiece.sold();
+        }
+    }
+
+    protected class RepairedTransition extends Transition {
+        public RepairedTransition(String aText, String[] aParameterNames, Class[] aArguments) {
+            super(aText, aParameterNames, aArguments);
+        }
+
+        public void proceed(ArtPiece aArtPiece, String[] aArguments) {
+            String lArguments = "";
+            for (int i = 0; i < aArguments.length; i++) {
+                if (i > 0) {
+                    lArguments += ", ";
+                }
+                lArguments += aArguments[i];
+            }
+            addLog("[Call] ArtPiece.repaired()");
+            aArtPiece.repaired();
         }
     }
 }

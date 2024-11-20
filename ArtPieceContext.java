@@ -1,3 +1,4 @@
+import java.io.PrintStream;
 
 public final class ArtPieceContext
     extends FSMContext
@@ -67,6 +68,14 @@ public final class ArtPieceContext
     {
         _transition = "recognized_as_unrepairable";
         getState().recognized_as_unrepairable(this);
+        _transition = "";
+        return;
+    }
+
+    public synchronized void repaired()
+    {
+        _transition = "repaired";
+        getState().repaired(this);
         _transition = "";
         return;
     }
@@ -156,6 +165,11 @@ public final class ArtPieceContext
             Default(context);
         }
 
+        protected void repaired(ArtPieceContext context)
+        {
+            Default(context);
+        }
+
         protected void sold(ArtPieceContext context)
         {
             Default(context);
@@ -163,6 +177,15 @@ public final class ArtPieceContext
 
         protected void Default(ArtPieceContext context)
         {
+            if (context.getDebugFlag() == true)
+            {
+                PrintStream str = 
+                    context.getDebugStream();
+
+                str.println(
+                    "TRANSITION   : Default");
+            }
+
             throw (
                 new TransitionUndefinedException(
                     "State: " +
@@ -189,28 +212,32 @@ public final class ArtPieceContext
         //-------------------------------------------------------
         // Statics.
         //
-        public static ArtPieceFSM_Default.ArtPieceFSM_On_auction On_auction;
-        public static ArtPieceFSM_Default.ArtPieceFSM_On_show On_show;
+        public static ArtPieceFSM_Default.ArtPieceFSM_Preview Preview;
         public static ArtPieceFSM_Default.ArtPieceFSM_Damaged_State Damaged_State;
+        public static ArtPieceFSM_Default.ArtPieceFSM_Settlement Settlement;
+        public static ArtPieceFSM_Default.ArtPieceFSM_On_show On_show;
         public static ArtPieceFSM_Default.ArtPieceFSM_Final Final;
-        public static ArtPieceFSM_Default.ArtPieceFSM_In_waitlist_for_auction In_waitlist_for_auction;
-        public static ArtPieceFSM_Default.ArtPieceFSM_In_waitlist_for_exhibition In_waitlist_for_exhibition;
+        public static ArtPieceFSM_Default.ArtPieceFSM_On_auction On_auction;
+        public static ArtPieceFSM_Default.ArtPieceFSM_Arrangement Arrangement;
         public static ArtPieceFSM_Default.ArtPieceFSM_Out_side_of_collection Out_side_of_collection;
         public static ArtPieceFSM_Default.ArtPieceFSM_In_storage In_storage;
         public static ArtPieceFSM_Default.ArtPieceFSM_In_the_art_collection In_the_art_collection;
+        public static ArtPieceFSM_Default.ArtPieceFSM_Reserved reserved;
         private static ArtPieceFSM_Default Default;
 
         static
         {
-            On_auction = new ArtPieceFSM_Default.ArtPieceFSM_On_auction("ArtPieceFSM.On_auction", 46);
-            On_show = new ArtPieceFSM_Default.ArtPieceFSM_On_show("ArtPieceFSM.On_show", 47);
-            Damaged_State = new ArtPieceFSM_Default.ArtPieceFSM_Damaged_State("ArtPieceFSM.Damaged_State", 48);
-            Final = new ArtPieceFSM_Default.ArtPieceFSM_Final("ArtPieceFSM.Final", 49);
-            In_waitlist_for_auction = new ArtPieceFSM_Default.ArtPieceFSM_In_waitlist_for_auction("ArtPieceFSM.In_waitlist_for_auction", 50);
-            In_waitlist_for_exhibition = new ArtPieceFSM_Default.ArtPieceFSM_In_waitlist_for_exhibition("ArtPieceFSM.In_waitlist_for_exhibition", 51);
-            Out_side_of_collection = new ArtPieceFSM_Default.ArtPieceFSM_Out_side_of_collection("ArtPieceFSM.Out_side_of_collection", 52);
-            In_storage = new ArtPieceFSM_Default.ArtPieceFSM_In_storage("ArtPieceFSM.In_storage", 53);
-            In_the_art_collection = new ArtPieceFSM_Default.ArtPieceFSM_In_the_art_collection("ArtPieceFSM.In_the_art_collection", 54);
+            Preview = new ArtPieceFSM_Default.ArtPieceFSM_Preview("ArtPieceFSM.Preview", 0);
+            Damaged_State = new ArtPieceFSM_Default.ArtPieceFSM_Damaged_State("ArtPieceFSM.Damaged_State", 1);
+            Settlement = new ArtPieceFSM_Default.ArtPieceFSM_Settlement("ArtPieceFSM.Settlement", 2);
+            On_show = new ArtPieceFSM_Default.ArtPieceFSM_On_show("ArtPieceFSM.On_show", 3);
+            Final = new ArtPieceFSM_Default.ArtPieceFSM_Final("ArtPieceFSM.Final", 4);
+            On_auction = new ArtPieceFSM_Default.ArtPieceFSM_On_auction("ArtPieceFSM.On_auction", 5);
+            Arrangement = new ArtPieceFSM_Default.ArtPieceFSM_Arrangement("ArtPieceFSM.Arrangement", 6);
+            Out_side_of_collection = new ArtPieceFSM_Default.ArtPieceFSM_Out_side_of_collection("ArtPieceFSM.Out_side_of_collection", 7);
+            In_storage = new ArtPieceFSM_Default.ArtPieceFSM_In_storage("ArtPieceFSM.In_storage", 8);
+            In_the_art_collection = new ArtPieceFSM_Default.ArtPieceFSM_In_the_art_collection("ArtPieceFSM.In_the_art_collection", 9);
+            reserved = new ArtPieceFSM_Default.ArtPieceFSM_Reserved("ArtPieceFSM.Reserved", 10);
             Default = new ArtPieceFSM_Default("ArtPieceFSM.Default", -1);
         }
 
@@ -233,20 +260,95 @@ public final class ArtPieceContext
     //
 
 
-        private static final class ArtPieceFSM_On_auction
+        private static final class ArtPieceFSM_Preview
             extends ArtPieceFSM_Default
         {
         //-------------------------------------------------------
         // Member methods.
         //
 
-            private ArtPieceFSM_On_auction(String name, int id)
+            private ArtPieceFSM_Preview(String name, int id)
+            {
+                super (name, id);
+            }
+
+        //-------------------------------------------------------
+        // Member data.
+        //
+        }
+
+        private static final class ArtPieceFSM_Damaged_State
+            extends ArtPieceFSM_Default
+        {
+        //-------------------------------------------------------
+        // Member methods.
+        //
+
+            private ArtPieceFSM_Damaged_State(String name, int id)
+            {
+                super (name, id);
+            }
+
+            protected void recognized_as_unrepairable(ArtPieceContext context)
+            {
+
+                if (context.getDebugFlag() == true)
+                {
+                    PrintStream str = context.getDebugStream();
+
+                    str.println("TRANSITION   : ArtPieceFSM.Damaged_State.recognized_as_unrepairable()");
+                }
+
+
+                (context.getState()).Exit(context);
+                context.setState(ArtPieceFSM.Final);
+                (context.getState()).Entry(context);
+                return;
+            }
+
+            protected void repaired(ArtPieceContext context)
+            {
+
+                if (context.getDebugFlag() == true)
+                {
+                    PrintStream str = context.getDebugStream();
+
+                    str.println("TRANSITION   : ArtPieceFSM.Damaged_State.repaired()");
+                }
+
+
+                (context.getState()).Exit(context);
+                context.setState(ArtPieceFSM.In_the_art_collection);
+                (context.getState()).Entry(context);
+                return;
+            }
+
+        //-------------------------------------------------------
+        // Member data.
+        //
+        }
+
+        private static final class ArtPieceFSM_Settlement
+            extends ArtPieceFSM_Default
+        {
+        //-------------------------------------------------------
+        // Member methods.
+        //
+
+            private ArtPieceFSM_Settlement(String name, int id)
             {
                 super (name, id);
             }
 
             protected void not_sold(ArtPieceContext context)
             {
+
+                if (context.getDebugFlag() == true)
+                {
+                    PrintStream str = context.getDebugStream();
+
+                    str.println("TRANSITION   : ArtPieceFSM.Settlement.not_sold()");
+                }
 
 
                 (context.getState()).Exit(context);
@@ -257,6 +359,13 @@ public final class ArtPieceContext
 
             protected void sold(ArtPieceContext context)
             {
+
+                if (context.getDebugFlag() == true)
+                {
+                    PrintStream str = context.getDebugStream();
+
+                    str.println("TRANSITION   : ArtPieceFSM.Settlement.sold()");
+                }
 
 
                 (context.getState()).Exit(context);
@@ -285,36 +394,16 @@ public final class ArtPieceContext
             protected void exhibition_ends(ArtPieceContext context)
             {
 
+                if (context.getDebugFlag() == true)
+                {
+                    PrintStream str = context.getDebugStream();
+
+                    str.println("TRANSITION   : ArtPieceFSM.On_show.exhibition_ends()");
+                }
+
 
                 (context.getState()).Exit(context);
                 context.setState(ArtPieceFSM.In_storage);
-                (context.getState()).Entry(context);
-                return;
-            }
-
-        //-------------------------------------------------------
-        // Member data.
-        //
-        }
-
-        private static final class ArtPieceFSM_Damaged_State
-            extends ArtPieceFSM_Default
-        {
-        //-------------------------------------------------------
-        // Member methods.
-        //
-
-            private ArtPieceFSM_Damaged_State(String name, int id)
-            {
-                super (name, id);
-            }
-
-            protected void recognized_as_unrepairable(ArtPieceContext context)
-            {
-
-
-                (context.getState()).Exit(context);
-                context.setState(ArtPieceFSM.Final);
                 (context.getState()).Entry(context);
                 return;
             }
@@ -341,14 +430,14 @@ public final class ArtPieceContext
         //
         }
 
-        private static final class ArtPieceFSM_In_waitlist_for_auction
+        private static final class ArtPieceFSM_On_auction
             extends ArtPieceFSM_Default
         {
         //-------------------------------------------------------
         // Member methods.
         //
 
-            private ArtPieceFSM_In_waitlist_for_auction(String name, int id)
+            private ArtPieceFSM_On_auction(String name, int id)
             {
                 super (name, id);
             }
@@ -356,9 +445,16 @@ public final class ArtPieceContext
             protected void auction_day_arrives(ArtPieceContext context)
             {
 
+                if (context.getDebugFlag() == true)
+                {
+                    PrintStream str = context.getDebugStream();
+
+                    str.println("TRANSITION   : ArtPieceFSM.On_auction.auction_day_arrives()");
+                }
+
 
                 (context.getState()).Exit(context);
-                context.setState(ArtPieceFSM.On_auction);
+                context.setState(ArtPieceFSM.Settlement);
                 (context.getState()).Entry(context);
                 return;
             }
@@ -368,20 +464,27 @@ public final class ArtPieceContext
         //
         }
 
-        private static final class ArtPieceFSM_In_waitlist_for_exhibition
+        private static final class ArtPieceFSM_Arrangement
             extends ArtPieceFSM_Default
         {
         //-------------------------------------------------------
         // Member methods.
         //
 
-            private ArtPieceFSM_In_waitlist_for_exhibition(String name, int id)
+            private ArtPieceFSM_Arrangement(String name, int id)
             {
                 super (name, id);
             }
 
             protected void exhibition_day_arrives(ArtPieceContext context)
             {
+
+                if (context.getDebugFlag() == true)
+                {
+                    PrintStream str = context.getDebugStream();
+
+                    str.println("TRANSITION   : ArtPieceFSM.Arrangement.exhibition_day_arrives()");
+                }
 
 
                 (context.getState()).Exit(context);
@@ -409,6 +512,13 @@ public final class ArtPieceContext
 
             protected void authenticated_to_have_value(ArtPieceContext context)
             {
+
+                if (context.getDebugFlag() == true)
+                {
+                    PrintStream str = context.getDebugStream();
+
+                    str.println("TRANSITION   : ArtPieceFSM.Out_side_of_collection.authenticated_to_have_value()");
+                }
 
 
                 (context.getState()).Exit(context);
@@ -454,11 +564,35 @@ public final class ArtPieceContext
             protected void damaged(ArtPieceContext context)
             {
 
+                if (context.getDebugFlag() == true)
+                {
+                    PrintStream str = context.getDebugStream();
+
+                    str.println("TRANSITION   : ArtPieceFSM.In_the_art_collection.damaged()");
+                }
+
 
                 (context.getState()).Exit(context);
                 context.setState(ArtPieceFSM.Damaged_State);
                 (context.getState()).Entry(context);
                 return;
+            }
+
+        //-------------------------------------------------------
+        // Member data.
+        //
+        }
+
+        private static final class ArtPieceFSM_Reserved
+            extends ArtPieceFSM_Default
+        {
+        //-------------------------------------------------------
+        // Member methods.
+        //
+
+            private ArtPieceFSM_Reserved(String name, int id)
+            {
+                super (name, id);
             }
 
         //-------------------------------------------------------

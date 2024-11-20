@@ -3,7 +3,17 @@
 
 %map ArtPieceFSM
 %%
-On_auction
+Preview
+{
+}
+
+Damaged_State
+{
+	recognized_as_unrepairable	Final	{}
+	repaired	In_the_art_collection	{}
+}
+
+Settlement
 {
 	not_sold	In_storage	{}
 	sold	Final	{}
@@ -14,21 +24,16 @@ On_show
 	exhibition_ends	In_storage	{}
 }
 
-Damaged_State
-{
-	recognized_as_unrepairable	Final	{}
-}
-
 Final
 {
 }
 
-In_waitlist_for_auction
+On_auction
 {
-	auction_day_arrives	On_auction	{}
+	auction_day_arrives	Settlement	{}
 }
 
-In_waitlist_for_exhibition
+Arrangement
 {
 	exhibition_day_arrives	On_show	{}
 }
@@ -45,6 +50,10 @@ In_storage
 In_the_art_collection
 {
 	damaged	Damaged_State	{}
+}
+
+reserved
+{
 }
 
 %%
