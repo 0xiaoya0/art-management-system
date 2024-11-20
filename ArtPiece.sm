@@ -1,0 +1,50 @@
+%start ArtPieceFSM::In_storage
+%class ArtPiece
+
+%map ArtPieceFSM
+%%
+On_auction
+{
+	not_sold	In_storage	{}
+	sold	Final	{}
+}
+
+On_show
+{
+	exhibition_ends	In_storage	{}
+}
+
+Damaged_State
+{
+	recognized_as_unrepairable	Final	{}
+}
+
+Final
+{
+}
+
+In_waitlist_for_auction
+{
+	auction_day_arrives	On_auction	{}
+}
+
+In_waitlist_for_exhibition
+{
+	exhibition_day_arrives	On_show	{}
+}
+
+Out_side_of_collection
+{
+	authenticated_to_have_value	In_the_art_collection	{}
+}
+
+In_storage
+{
+}
+
+In_the_art_collection
+{
+	damaged	Damaged_State	{}
+}
+
+%%
