@@ -89,7 +89,6 @@ public final class ArtPieceContext
     }
 
     public ArtPieceState getState()
-        throws StateUndefinedException
     {
         if (_state == null)
         {
@@ -289,7 +288,8 @@ public final class ArtPieceContext
                 super (name, id);
             }
 
-            protected void recognized_as_unrepairable(ArtPieceContext context)
+            @Override
+			protected void recognized_as_unrepairable(ArtPieceContext context)
             {
 
                 if (context.getDebugFlag() == true)
@@ -306,7 +306,8 @@ public final class ArtPieceContext
                 return;
             }
 
-            protected void repaired(ArtPieceContext context)
+            @Override
+			protected void repaired(ArtPieceContext context)
             {
 
                 if (context.getDebugFlag() == true)
@@ -340,7 +341,8 @@ public final class ArtPieceContext
                 super (name, id);
             }
 
-            protected void not_sold(ArtPieceContext context)
+            @Override
+			protected void not_sold(ArtPieceContext context)
             {
 
                 if (context.getDebugFlag() == true)
@@ -357,7 +359,8 @@ public final class ArtPieceContext
                 return;
             }
 
-            protected void sold(ArtPieceContext context)
+            @Override
+			protected void sold(ArtPieceContext context)
             {
 
                 if (context.getDebugFlag() == true)
@@ -391,7 +394,8 @@ public final class ArtPieceContext
                 super (name, id);
             }
 
-            protected void exhibition_ends(ArtPieceContext context)
+            @Override
+			protected void exhibition_ends(ArtPieceContext context)
             {
 
                 if (context.getDebugFlag() == true)
@@ -442,7 +446,8 @@ public final class ArtPieceContext
                 super (name, id);
             }
 
-            protected void auction_day_arrives(ArtPieceContext context)
+            @Override
+			protected void auction_day_arrives(ArtPieceContext context)
             {
 
                 if (context.getDebugFlag() == true)
@@ -476,7 +481,8 @@ public final class ArtPieceContext
                 super (name, id);
             }
 
-            protected void exhibition_day_arrives(ArtPieceContext context)
+            @Override
+			protected void exhibition_day_arrives(ArtPieceContext context)
             {
 
                 if (context.getDebugFlag() == true)
@@ -510,7 +516,8 @@ public final class ArtPieceContext
                 super (name, id);
             }
 
-            protected void authenticated_to_have_value(ArtPieceContext context)
+            @Override
+			protected void authenticated_to_have_value(ArtPieceContext context)
             {
 
                 if (context.getDebugFlag() == true)
@@ -561,7 +568,8 @@ public final class ArtPieceContext
                 super (name, id);
             }
 
-            protected void damaged(ArtPieceContext context)
+            @Override
+			protected void damaged(ArtPieceContext context)
             {
 
                 if (context.getDebugFlag() == true)

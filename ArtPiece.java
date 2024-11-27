@@ -1,10 +1,12 @@
-public class Artpiece {
+import java.util.Date;
+
+public class ArtPiece {
 
 	private int id;
-	private string name;
-	private string category;
+	private String name;
+	private String category;
 	private float buyPrice;
-	private string status;
+	private String status;
 	private Date creationDate;
 	private float sellPrice;
 

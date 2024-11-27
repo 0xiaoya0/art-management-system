@@ -1,9 +1,12 @@
+import java.util.Date;
+import java.util.List;
+
 public class Auction {
 
 	private int auctionId;
 	private float startPrice;
 	private Date endDate;
-	private string status;
+	private String status;
 	private float highestBid;
 	private List<Bid> biddingHistory;
 	private List<ArtPiece> artPieces;

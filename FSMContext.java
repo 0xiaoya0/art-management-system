@@ -42,9 +42,9 @@
 import java.io.PrintStream;
 import java.io.Serializable;
 import java.util.EmptyStackException;
-import java.util.Set;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.Set;
 
 // statemap.FSMContext --
 //
@@ -128,7 +128,6 @@ public abstract class FSMContext
     }
 
     public State getPreviousState()
-        throws NullPointerException
     {
         if (_previousState == null)
         {
@@ -167,7 +166,6 @@ public abstract class FSMContext
     }
 
     public void popState()
-        throws EmptyStackException
     {
         if (_stateStack == null ||
             _stateStack.isEmpty() == true)

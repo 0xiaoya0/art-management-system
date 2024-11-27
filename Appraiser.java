@@ -1,6 +1,6 @@
 public class Appraiser extends User {
 
-	private string expertise;
+	private String expertise;
 
 	/**
 	 * 

@@ -1,3 +1,5 @@
+import java.util.List;
+
 public class Buyer extends User {
 
 	public List<Auction> participatedAuctions;

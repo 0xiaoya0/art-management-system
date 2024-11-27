@@ -71,7 +71,8 @@ public abstract class State
         return (_id);
     }
 
-    public String toString()
+    @Override
+	public String toString()
     {
         return (_name);
     }

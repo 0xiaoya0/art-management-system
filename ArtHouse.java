@@ -1,7 +1,9 @@
+import java.util.List;
+
 public class ArtHouse {
 
 	private int id;
-	private string name;
+	private String name;
 	private List<Customer> customers;
 	private List<ArtPiece> artPieces;
 	private List<Suction> auctions;

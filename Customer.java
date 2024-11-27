@@ -1,8 +1,8 @@
 public class Customer {
 
 	private int id;
-	private string name;
-	private string contactInfo;
+	private String name;
+	private String contactInfo;
 
 	public void interactWithArePiece() {
 		// TODO - implement Customer.interactWithArePiece

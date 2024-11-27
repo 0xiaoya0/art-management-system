@@ -1,11 +1,14 @@
+import java.util.Date;
+import java.util.List;
+
 public class Exhibition {
 
 	private Date startDate;
 	private Date endDate;
-	private string location;
-	private string status;
+	private String location;
+	private String status;
 	private int exhibitionId;
-	private string attribute;
+	private String attribute;
 	private List<ArtPiece> artPieces;
 
 	public void open() {

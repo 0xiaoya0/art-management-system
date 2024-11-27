@@ -1,9 +1,9 @@
 public class User {
 
 	public int id;
-	public string name;
-	public string email;
-	public string password;
+	public String name;
+	public String email;
+	public String password;
 
 	public void login() {
 		// TODO - implement User.login

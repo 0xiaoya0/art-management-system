@@ -1,7 +1,9 @@
+import java.util.List;
+
 public class ManageTeam {
 
 	private int id;
-	private List<Employee> members;
+	private List<User> members;
 
 	public void oversee() {
 		// TODO - implement ManageTeam.oversee
